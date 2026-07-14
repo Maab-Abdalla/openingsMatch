@@ -38,4 +38,10 @@ def index():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    # Railway (and most PaaS) inject the port to listen on via $PORT.
+    # Bind to 0.0.0.0 so the platform's router can reach the container -
+    # 127.0.0.1 only accepts connections from INSIDE the container, which is
+    # why the deploy succeeded but the app never responded.
+    import os
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=False)

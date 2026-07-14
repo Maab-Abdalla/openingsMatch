@@ -95,10 +95,18 @@ class Recommendation:
 
 class OpeningsMatch:
     def __init__(self, catalog: Optional[pd.DataFrame] = None):
-        self.catalog = (
-            catalog if catalog is not None
-            else pd.read_csv(DATA / "catalog.csv")
-        )
+        if catalog is not None:
+            self.catalog = catalog
+        else:
+            csv = DATA / "catalog.csv"
+            # Defensive: if the catalogue was never generated (e.g. a fresh
+            # deploy that didn't run the generator), build it on the fly rather
+            # than crashing the container on startup.
+            if not csv.exists():
+                from generate_catalog import build_catalog
+                DATA.mkdir(exist_ok=True)
+                build_catalog().to_csv(csv, index=False)
+            self.catalog = pd.read_csv(csv)
         # Fit TF-IDF once over all product descriptions.
         self.vectorizer = TfidfVectorizer(stop_words="english")
         self.matrix = self.vectorizer.fit_transform(self.catalog["description"])
