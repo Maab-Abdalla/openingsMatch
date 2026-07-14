@@ -1,0 +1,45 @@
+product_id,name,category,brand,finish,description,fire_rated,security_level,handed,price
+P001,Kestrel Mortise Lockset,lock,Kestrel,satin stainless,mortise lockset heavy duty commercial cylinder keyed entry high traffic satin stainless,True,3,True,224.0
+P002,Northwind Mortise Lockset,lock,Northwind,matte black,mortise lockset heavy duty commercial cylinder keyed entry high traffic matte black,True,3,True,215.71
+P003,Kestrel Cylindrical Lever Lock,lock,Kestrel,satin stainless,cylindrical lever lock commercial keyed entry standard duty satin stainless,True,2,True,123.75
+P004,Northwind Cylindrical Lever Lock,lock,Northwind,matte black,cylindrical lever lock commercial keyed entry standard duty matte black,True,2,True,92.38
+P005,Bastion Tubular Passage Latch,lock,Bastion,satin stainless,tubular passage latch residential interior non locking lightweight satin stainless,False,1,False,30.97
+P006,Kestrel Tubular Passage Latch,lock,Kestrel,matte black,tubular passage latch residential interior non locking lightweight matte black,False,1,False,44.5
+P007,Ironvale Deadbolt Single Cylinder,lock,Ironvale,polished brass,deadbolt single cylinder security auxiliary lock keyed polished brass,False,3,False,95.36
+P008,Meridian Deadbolt Single Cylinder,lock,Meridian,galvanised steel,deadbolt single cylinder security auxiliary lock keyed galvanised steel,False,3,False,108.57
+P009,Northwind Mortise Lock Fire Rated,lock,Northwind,galvanised steel,mortise lock fire rated ul listed self latching commercial stairwell galvanised steel,True,4,True,290.02
+P010,Bastion Mortise Lock Fire Rated,lock,Bastion,polished brass,mortise lock fire rated ul listed self latching commercial stairwell polished brass,True,4,True,278.76
+P011,Corvus Surface Door Closer,closer,Corvus,satin stainless,surface mounted door closer adjustable spring commercial self closing satin stainless,True,2,True,119.67
+P012,Northwind Surface Door Closer,closer,Northwind,polished brass,surface mounted door closer adjustable spring commercial self closing polished brass,True,2,True,194.75
+P013,Ironvale Concealed Overhead Closer,closer,Ironvale,satin stainless,concealed overhead door closer aesthetic hidden commercial self closing satin stainless,True,3,True,361.07
+P014,Corvus Concealed Overhead Closer,closer,Corvus,matte black,concealed overhead door closer aesthetic hidden commercial self closing matte black,True,3,True,287.46
+P015,Meridian Heavy Duty Closer Fire Rated,closer,Meridian,matte black,heavy duty door closer fire rated ul listed self closing high traffic matte black,True,3,True,295.15
+P016,Northwind Heavy Duty Closer Fire Rated,closer,Northwind,galvanised steel,heavy duty door closer fire rated ul listed self closing high traffic galvanised steel,True,3,True,336.49
+P017,Ironvale Light Duty Residential Closer,closer,Ironvale,satin stainless,light duty residential door closer interior low traffic spring satin stainless,False,1,False,74.76
+P018,Bastion Light Duty Residential Closer,closer,Bastion,galvanised steel,light duty residential door closer interior low traffic spring galvanised steel,False,1,False,79.79
+P019,Northwind Ball Bearing Butt Hinge,hinge,Northwind,satin stainless,ball bearing butt hinge heavy duty steel commercial high traffic satin stainless,True,2,True,29.73
+P020,Bastion Ball Bearing Butt Hinge,hinge,Bastion,polished brass,ball bearing butt hinge heavy duty steel commercial high traffic polished brass,True,2,True,42.25
+P021,Corvus Continuous Geared Hinge,hinge,Corvus,matte black,continuous geared hinge aluminium full length heavy duty high traffic matte black,True,3,True,171.43
+P022,Bastion Continuous Geared Hinge,hinge,Bastion,polished brass,continuous geared hinge aluminium full length heavy duty high traffic polished brass,True,3,True,180.05
+P023,Kestrel Plain Bearing Hinge,hinge,Kestrel,polished brass,plain bearing hinge residential interior light duty standard polished brass,False,1,True,18.21
+P024,Northwind Plain Bearing Hinge,hinge,Northwind,matte black,plain bearing hinge residential interior light duty standard matte black,False,1,True,10.29
+P025,Meridian Spring Hinge Fire Rated,hinge,Meridian,polished brass,spring hinge fire rated self closing ul listed steel polished brass,True,2,True,42.97
+P026,Corvus Spring Hinge Fire Rated,hinge,Corvus,matte black,spring hinge fire rated self closing ul listed steel matte black,True,2,True,60.73
+P027,Northwind Rim Exit Device,exit_device,Northwind,satin stainless,rim exit device panic bar egress emergency commercial push satin stainless,True,3,True,440.35
+P028,Bastion Rim Exit Device,exit_device,Bastion,polished brass,rim exit device panic bar egress emergency commercial push polished brass,True,3,True,339.86
+P029,Ironvale Mortise Exit Device,exit_device,Ironvale,polished brass,mortise exit device panic hardware egress heavy duty commercial polished brass,True,4,True,599.72
+P030,Corvus Mortise Exit Device,exit_device,Corvus,matte black,mortise exit device panic hardware egress heavy duty commercial matte black,True,4,True,738.49
+P031,Kestrel Vertical Rod Exit Device,exit_device,Kestrel,polished brass,vertical rod exit device panic double door egress concealed polished brass,True,4,True,537.25
+P032,Meridian Vertical Rod Exit Device,exit_device,Meridian,galvanised steel,vertical rod exit device panic double door egress concealed galvanised steel,True,4,True,785.45
+P033,Ironvale Intumescent Fire Seal,seal,Ironvale,galvanised steel,intumescent fire seal smoke expanding strip fire rated perimeter galvanised steel,True,1,False,24.99
+P034,Corvus Intumescent Fire Seal,seal,Corvus,matte black,intumescent fire seal smoke expanding strip fire rated perimeter matte black,True,1,False,20.48
+P035,Bastion Acoustic Perimeter Seal,seal,Bastion,galvanised steel,acoustic perimeter seal sound insulation adhesive gasket galvanised steel,False,1,False,42.67
+P036,Ironvale Acoustic Perimeter Seal,seal,Ironvale,satin stainless,acoustic perimeter seal sound insulation adhesive gasket satin stainless,False,1,False,45.83
+P037,Bastion Weather Threshold Seal,seal,Bastion,galvanised steel,weather threshold seal exterior draught water resistant aluminium galvanised steel,False,1,False,27.22
+P038,Kestrel Weather Threshold Seal,seal,Kestrel,matte black,weather threshold seal exterior draught water resistant aluminium matte black,False,1,False,38.36
+P039,Meridian Electronic Strike,access_control,Meridian,matte black,electronic strike electric release access control fail secure matte black,True,4,False,259.12
+P040,Ironvale Electronic Strike,access_control,Ironvale,galvanised steel,electronic strike electric release access control fail secure galvanised steel,True,4,False,131.72
+P041,Kestrel Card Reader Lock,access_control,Kestrel,matte black,card reader lock rfid electronic access control credential smart matte black,True,4,True,445.45
+P042,Northwind Card Reader Lock,access_control,Northwind,galvanised steel,card reader lock rfid electronic access control credential smart galvanised steel,True,4,True,430.99
+P043,Bastion Magnetic Lock,access_control,Bastion,satin stainless,magnetic lock maglock electromagnetic access control fail safe satin stainless,False,3,False,300.14
+P044,Meridian Magnetic Lock,access_control,Meridian,matte black,magnetic lock maglock electromagnetic access control fail safe matte black,False,3,False,202.14

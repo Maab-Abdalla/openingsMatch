@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OpeningsMatch — Constraint-Aware Hardware Specification</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#12161C;
+    --paper:#FBFAF7;
+    --rule:#D6D2C8;
+    --rule-strong:#9A968C;
+    --steel:#3D5566;
+    --required:#8C2F1E;   /* code-mandated: oxide red */
+    --compliant:#2E5E3E;  /* passes constraints: deep green */
+    --ruleonly:#8A6D1F;   /* rule fired, no ML signal: amber */
+    --muted:#6E6A62;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans',sans-serif;
+    line-height:1.55;
+    /* faint drafting grid */
+    background-image:
+      linear-gradient(rgba(61,85,102,.035) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(61,85,102,.035) 1px,transparent 1px);
+    background-size:24px 24px;
+  }
+  .wrap{max-width:1120px;margin:0 auto;padding:40px 28px 80px}
+
+  /* ---- titleblock: like a drawing sheet ---- */
+  header{
+    border:1.5px solid var(--ink);
+    background:#fff;
+    display:grid;
+    grid-template-columns:1fr auto;
+    margin-bottom:32px;
+  }
+  .tb-main{padding:20px 24px}
+  h1{
+    font-size:26px;font-weight:700;letter-spacing:-.02em;
+  }
+  h1 span{color:var(--steel);font-weight:400}
+  .sub{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11.5px;color:var(--muted);
+    text-transform:uppercase;letter-spacing:.09em;margin-top:6px;
+  }
+  .tb-meta{
+    border-left:1.5px solid var(--ink);
+    padding:20px 24px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;color:var(--muted);
+    display:flex;flex-direction:column;justify-content:center;gap:3px;
+    white-space:nowrap;
+  }
+  .tb-meta b{color:var(--ink);font-weight:600}
+
+  .layout{display:grid;grid-template-columns:300px 1fr;gap:28px;align-items:start}
+
+  /* ---- spec panel ---- */
+  .panel{
+    border:1.5px solid var(--ink);
+    background:#fff;
+  }
+  .panel-hd{
+    background:var(--ink);color:#fff;
+    padding:9px 16px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;
+  }
+  .panel-bd{padding:18px 16px}
+
+  fieldset{border:none;margin-bottom:18px}
+  legend{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--muted);padding-bottom:8px;
+  }
+  .chk{display:flex;align-items:flex-start;gap:9px;padding:6px 0;cursor:pointer}
+  .chk input{margin-top:4px;accent-color:var(--steel);cursor:pointer}
+  .chk-t{font-size:13.5px;font-weight:500}
+  .chk-d{font-size:11.5px;color:var(--muted);line-height:1.4}
+  label.fld{display:block;margin-bottom:14px}
+  .fld-l{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--muted);display:block;margin-bottom:5px;
+  }
+  select,input[type=range]{width:100%}
+  select{
+    border:1px solid var(--rule-strong);background:#fff;
+    padding:7px 9px;font-family:'IBM Plex Sans',sans-serif;font-size:13.5px;
+    color:var(--ink);border-radius:0;
+  }
+  .sec-row{display:flex;align-items:center;gap:10px}
+  .sec-val{
+    font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:15px;
+    min-width:16px;text-align:center;
+  }
+  button{
+    width:100%;background:var(--ink);color:#fff;border:none;
+    padding:12px;font-family:'IBM Plex Mono',monospace;
+    font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;
+    cursor:pointer;transition:background .15s;
+  }
+  button:hover{background:var(--steel)}
+
+  /* ---- results ---- */
+  .empty{
+    border:1.5px dashed var(--rule-strong);
+    padding:56px 32px;text-align:center;color:var(--muted);
+    font-family:'IBM Plex Mono',monospace;font-size:12.5px;line-height:1.9;
+  }
+  .warn{
+    border:1.5px solid var(--required);
+    background:#fff;
+    padding:14px 16px;margin-bottom:16px;
+  }
+  .warn-t{
+    font-family:'IBM Plex Mono',monospace;font-size:10.5px;
+    letter-spacing:.1em;text-transform:uppercase;
+    color:var(--required);font-weight:600;margin-bottom:5px;
+  }
+  .warn-b{font-size:13px}
+
+  .item{
+    border:1.5px solid var(--ink);background:#fff;margin-bottom:-1.5px;
+    display:grid;grid-template-columns:132px 1fr 108px;
+  }
+  .item-cat{
+    border-right:1.5px solid var(--ink);
+    padding:14px 12px;
+    display:flex;flex-direction:column;gap:7px;
+  }
+  .cat-n{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;
+    letter-spacing:.06em;text-transform:uppercase;
+  }
+  .tag{
+    font-family:'IBM Plex Mono',monospace;font-size:9px;
+    letter-spacing:.07em;text-transform:uppercase;font-weight:600;
+    padding:3px 6px;display:inline-block;width:fit-content;
+    border:1px solid currentColor;
+  }
+  .t-req{color:var(--required)}
+  .t-opt{color:var(--muted)}
+  .item-bd{padding:14px 16px}
+  .item-n{font-size:15px;font-weight:600;margin-bottom:9px}
+  .reasons{list-style:none}
+  .reasons li{
+    font-size:12.5px;color:var(--steel);line-height:1.5;
+    padding-left:14px;position:relative;margin-bottom:3px;
+  }
+  .reasons li::before{
+    content:"";position:absolute;left:0;top:8px;
+    width:6px;height:1.5px;background:var(--rule-strong);
+  }
+  .reasons li.mand{color:var(--required);font-weight:500}
+  .item-sc{
+    border-left:1.5px solid var(--ink);
+    padding:14px 12px;text-align:right;
+    display:flex;flex-direction:column;justify-content:space-between;
+  }
+  .price{font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:600}
+  .conf{
+    font-family:'IBM Plex Mono',monospace;font-size:9.5px;
+    letter-spacing:.06em;text-transform:uppercase;font-weight:600;margin-top:6px;
+  }
+  .c-strong{color:var(--compliant)}
+  .c-moderate{color:var(--steel)}
+  .c-weak{color:var(--muted)}
+  .c-rule-only{color:var(--ruleonly)}
+  .score{
+    font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--muted);
+  }
+
+  .total{
+    border:1.5px solid var(--ink);background:var(--ink);color:#fff;
+    padding:14px 16px;display:flex;justify-content:space-between;align-items:center;
+    margin-top:-1.5px;
+  }
+  .total-l{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;
+    letter-spacing:.1em;text-transform:uppercase;
+  }
+  .total-v{font-family:'IBM Plex Mono',monospace;font-size:19px;font-weight:600}
+
+  .legend{
+    margin-top:22px;padding-top:14px;border-top:1px solid var(--rule);
+    font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--muted);
+    line-height:1.8;
+  }
+  .legend b{color:var(--ruleonly)}
+  .disclaimer{
+    margin-top:28px;padding:12px 14px;
+    border-left:3px solid var(--rule-strong);background:#fff;
+    font-size:12px;color:var(--muted);line-height:1.6;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="tb-main">
+      <h1>OpeningsMatch <span>/ hardware specification</span></h1>
+      <div class="sub">Constraint-aware recommender · prototype</div>
+    </div>
+    <div class="tb-meta">
+      <div>CATALOGUE &nbsp;<b>{{ catalog_size }} products</b></div>
+      <div>ENGINE &nbsp;&nbsp;&nbsp;<b>rules → TF-IDF</b></div>
+      <div>DATA &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>synthetic</b></div>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <!-- ============ INPUT ============ -->
+    <form method="post" class="panel">
+      <div class="panel-hd">Door specification</div>
+      <div class="panel-bd">
+
+        <fieldset>
+          <legend>Life safety</legend>
+
+          <label class="chk">
+            <input type="checkbox" name="fire_rated" {% if door.fire_rated %}checked{% endif %}>
+            <span>
+              <span class="chk-t">Fire-rated</span>
+              <span class="chk-d">Forces a self-closer + intumescent seal, and restricts all components to UL-listed stock.</span>
+            </span>
+          </label>
+
+          <label class="chk">
+            <input type="checkbox" name="is_egress" {% if door.is_egress %}checked{% endif %}>
+            <span>
+              <span class="chk-t">On egress route</span>
+              <span class="chk-d">Forces panic hardware — must open under pressure without prior knowledge.</span>
+            </span>
+          </label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Configuration</legend>
+
+          <label class="fld">
+            <span class="fld-l">Security level</span>
+            <div class="sec-row">
+              <input type="range" name="security_level" min="1" max="5"
+                     value="{{ door.security_level }}"
+                     oninput="document.getElementById('sv').textContent=this.value">
+              <span class="sec-val" id="sv">{{ door.security_level }}</span>
+            </div>
+          </label>
+
+          <label class="fld">
+            <span class="fld-l">Location</span>
+            <select name="location">
+              <option value="interior"  {% if door.location=='interior'  %}selected{% endif %}>Interior</option>
+              <option value="exterior"  {% if door.location=='exterior'  %}selected{% endif %}>Exterior</option>
+              <option value="stairwell" {% if door.location=='stairwell' %}selected{% endif %}>Stairwell</option>
+            </select>
+          </label>
+
+          <label class="fld">
+            <span class="fld-l">Traffic</span>
+            <select name="traffic">
+              <option value="standard" {% if door.traffic=='standard' %}selected{% endif %}>Standard</option>
+              <option value="high"     {% if door.traffic=='high'     %}selected{% endif %}>High</option>
+            </select>
+          </label>
+
+          <label class="chk">
+            <input type="checkbox" name="handed" {% if door.handed %}checked{% endif %}>
+            <span><span class="chk-t">Handed door</span></span>
+          </label>
+
+          <label class="chk">
+            <input type="checkbox" name="acoustic" {% if door.acoustic %}checked{% endif %}>
+            <span><span class="chk-t">Acoustic requirement</span></span>
+          </label>
+        </fieldset>
+
+        <button type="submit">Generate hardware set</button>
+      </div>
+    </form>
+
+    <!-- ============ OUTPUT ============ -->
+    <div>
+    {% if not result %}
+      <div class="empty">
+        Specify a door opening, then generate.<br>
+        Hard constraints are applied <em>before</em> ranking —<br>
+        the model never sees a non-compliant candidate.
+      </div>
+    {% else %}
+
+      {% for w in result.warnings %}
+        <div class="warn">
+          <div class="warn-t">Cannot complete opening</div>
+          <div class="warn-b">{{ w }}</div>
+        </div>
+      {% endfor %}
+
+      {% for r in result.recommendations %}
+        <div class="item">
+          <div class="item-cat">
+            <span class="cat-n">{{ r.category.replace('_',' ') }}</span>
+            {% if r.required %}
+              <span class="tag t-req">Required</span>
+            {% else %}
+              <span class="tag t-opt">Optional</span>
+            {% endif %}
+          </div>
+          <div class="item-bd">
+            <div class="item-n">{{ r.name }}</div>
+            <ul class="reasons">
+              {% for reason in r.reasons %}
+                <li class="{% if reason.startswith('REQUIRED') %}mand{% endif %}">{{ reason }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+          <div class="item-sc">
+            <div>
+              <div class="price">${{ '%.2f'|format(r.price) }}</div>
+              <div class="conf c-{{ r.confidence }}">{{ r.confidence }}</div>
+            </div>
+            <div class="score">sim {{ '%.3f'|format(r.score) }}</div>
+          </div>
+        </div>
+      {% endfor %}
+
+      <div class="total">
+        <span class="total-l">Hardware set total</span>
+        <span class="total-v">${{ '%.2f'|format(result.total_price) }}</span>
+      </div>
+
+      <div class="legend">
+        <b>RULE-ONLY</b> = the code mandated this category, but text similarity found no signal.<br>
+        The item is present because a rule demanded it — not because the model was confident.<br>
+        That distinction is surfaced, not hidden.
+      </div>
+
+    {% endif %}
+
+      <div class="disclaimer">
+        <strong>Prototype on synthetic data.</strong> The catalogue is generated, not real —
+        products, brands and prices are invented, modelled on standard architectural
+        hardware categories. The compliance rules encoded here are illustrative of the
+        <em>approach</em>, not a substitute for a certified fire-door schedule.
+      </div>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>
